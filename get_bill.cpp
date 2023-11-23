@@ -1,26 +1,36 @@
-#include<iostream>
-
+#include <iostream>
 using namespace std;
 
-int main()
-{
-cout<<"No of units = ";
-int n;
-int cost = 0;
-cin>>n;
-if(n>=50)
-{
-cost+=50;
-n-=50;
-}
-if(n>=100)
-{
-cost+=2*100;
-n-=100;
-}
-cost+=5*n;
-cost+=50;
-cout<<"\nElectricity bill is "<<cost<<" dollar";
-return 0;
+double calculateElectricityBill(int units) {
+    double bill = 0.0;
+    const double rateFirst50 = 1.0;
+    const double rateNext100 = 2.0; 
+    const double rateRemaining = 5.0; 
+    const double tax = 50.0; 
+
+    if (units > 0) {
+        if (units <= 50) {
+            bill = units * rateFirst50;
+        } else if (units <= 150) {
+            bill = 50 * rateFirst50 + (units - 50) * rateNext100;
+        } else {
+            bill = 50 * rateFirst50 + 100 * rateNext100 + (units - 150) * rateRemaining;
+        }
+
+        // Adding the fixed tax
+        bill += tax;
+    }
+
+    return bill;
 }
 
+int main() {
+    int consumedUnits;
+    cout << "Enter the number of units consumed: ";
+    cin >> consumedUnits;
+
+    double totalBill = calculateElectricityBill(consumedUnits);
+    cout << "Electricity Bill: $" << totalBill << endl;
+
+    return 0;
+}
